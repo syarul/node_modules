@@ -2,10 +2,12 @@ import isString from 'lodash/isString'
 import identity from 'lodash/identity'
 import ary from 'lodash/ary'
 import esutils from 'esutils'
+import uuid from 'uuid/v4'
 
 const nameProperty = 'elementName'
 const attributesProperty = 'attributes'
 const childrenProperty = 'children'
+const idProperty = 'uuid'
 
 export default function ({ types: t }) {
   /* ==========================================================================
@@ -180,7 +182,8 @@ export default function ({ types: t }) {
       t.objectExpression([
         t.objectProperty(t.identifier(nameProperty), JSXElementName(node.openingElement.name)),
         t.objectProperty(t.identifier(attributesProperty), JSXAttributes(node.openingElement.attributes)),
-        t.objectProperty(t.identifier(childrenProperty), node.closingElement ? JSXChildren(node.children) : t.nullLiteral())
+        t.objectProperty(t.identifier(childrenProperty), node.closingElement ? JSXChildren(node.children) : t.nullLiteral()),
+        t.objectProperty(t.identifier(idProperty), t.stringLiteral(uuid()))
       ])
     )
 
